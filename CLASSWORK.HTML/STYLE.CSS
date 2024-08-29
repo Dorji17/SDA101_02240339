@@ -1,0 +1,9 @@
+table, th, td{
+    border: 1px solid pink;border-collapse: collapse;
+}
+.text{
+    color: rgb(red, green, blue);
+}
+#bot{
+    color: rgb(red, green, blue);
+}
