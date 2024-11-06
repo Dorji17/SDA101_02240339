@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Card Component</title>
+
+  <script src="custom-card.js" defer></script>
+  <script src="toggle-button.js" defer></script>
+  <script src="user-profile.js" defer></script>
+   
+  <style>
+    
+    custom-card {
+      --card-background: #fff;
+      --card-border-color: #ddd;
+      --card-border-radius: 10px;
+      --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      --header-color: #333;
+      --content-color: #555;
+      --footer-color: #777;
+    }
+
+    
+    
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  
+  <custom-card>
+    <div slot="header">Card Header</div>
+    <div slot="content">
+      <p>This is the content area where text, images, and other HTML elements can be placed.</p>
+      <img src="https://via.placeholder.com/150" alt="Placeholder image">
+    </div>
+    <div slot="footer">Card Footer</div>
+  </custom-card>
+  
+  <toggle-button></toggle-button>
+
+
+  <user-profile name="Dorji Lhamo" role="Programmer"></user-profile>
+</body>
+</html>

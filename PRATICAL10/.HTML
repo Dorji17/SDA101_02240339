@@ -1,0 +1,115 @@
+import random
+import math
+from typing import List, Tuple, Optional
+
+# Modified linear search to return all indices
+def linear_search(arr: List[int], target: int) -> List[int]:
+    indices = []
+    comparisons = 0
+    for i in range(len(arr)):
+        comparisons += 1
+        if arr[i] == target:
+            indices.append(i)
+    return indices, comparisons
+
+# Binary search to find the insertion point for a target value
+def binary_search_insertion_point(arr: List[int], target: int) -> int:
+    left, right = 0, len(arr)
+    comparisons = 0
+
+    while left < right:
+        mid = (left + right) // 2
+        comparisons += 1
+        if arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid
+    return left, comparisons  # Insertion point is at 'left'
+
+# Binary search (for finding the index)
+def binary_search(arr: List[int], target: int) -> Tuple[Optional[int], int]:
+    left, right = 0, len(arr) - 1
+    comparisons = 0
+
+    while left <= right:
+        mid = (left + right) // 2
+        comparisons += 1
+        if arr[mid] == target:
+            return mid, comparisons
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return -1, comparisons
+
+# Recursive binary search
+def binary_search_recursive(arr: List[int], target: int, left: int, right: int, comparisons: int = 0) -> Tuple[Optional[int], int]:
+    if left > right:
+        return -1, comparisons
+
+    mid = (left + right) // 2
+    comparisons += 1
+    if arr[mid] == target:
+        return mid, comparisons
+    elif arr[mid] < target:
+        return binary_search_recursive(arr, target, mid + 1, right, comparisons)
+    else:
+        return binary_search_recursive(arr, target, left, mid - 1, comparisons)
+
+# Jump Search Implementation
+def jump_search(arr: List[int], target: int) -> Tuple[Optional[int], int]:
+    n = len(arr)
+    step = int(math.sqrt(n))
+    prev = 0
+    comparisons = 0
+
+    while arr[min(step, n) - 1] < target:
+        comparisons += 1
+        prev = step
+        step += int(math.sqrt(n))
+        if prev >= n:
+            return -1, comparisons
+
+    while arr[prev] < target:
+        comparisons += 1
+        prev += 1
+        if prev == min(step, n):
+            return -1, comparisons
+
+    comparisons += 1  # For the final comparison
+    if arr[prev] == target:
+        return prev, comparisons
+    return -1, comparisons
+
+def compare_search_algorithms(arr: List[int], target: int):
+    print("\nLinear Search:")
+    linear_result, linear_comparisons = linear_search(arr, target)
+    print(f"Found at indices: {linear_result}, Comparisons: {linear_comparisons}")
+
+    print("\nBinary Search:")
+    binary_result, binary_comparisons = binary_search(sorted(arr), target)
+    print(f"Found at index: {binary_result}, Comparisons: {binary_comparisons}")
+
+    print("\nBinary Search (Insertion Point):")
+    insertion_point, insertion_comparisons = binary_search_insertion_point(sorted(arr), target)
+    print(f"Insertion point for {target}: {insertion_point}, Comparisons: {insertion_comparisons}")
+
+    print("\nRecursive Binary Search:")
+    recursive_result, recursive_comparisons = binary_search_recursive(sorted(arr), target, 0, len(sorted(arr)) - 1)
+    print(f"Found at index: {recursive_result}, Comparisons: {recursive_comparisons}")
+
+    print("\nJump Search:")
+    jump_result, jump_comparisons = jump_search(sorted(arr), target)
+    print(f"Found at index: {jump_result}, Comparisons: {jump_comparisons}")
+
+def main():
+    test_list = [random.randint(1, 100) for _ in range(20)]
+    print("Original list:", test_list)
+    
+    target = random.choice(test_list)
+    print(f"\nSearching for: {target}")
+
+    compare_search_algorithms(test_list, target)
+
+if _name_ == "_main_":
+    main()

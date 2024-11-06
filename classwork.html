@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toggle Button</title>
+  <style>
+    /* Center the toggle-button element */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    toggle-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    toggle-button button {
+      padding: 20px 40px; /* Adjusted padding for larger button */
+      font-size: 32px; /* Increased font size */
+      border: none;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      border-radius: 8px; /* Optional: rounded corners for style */
+    }
+
+    toggle-button button:hover {
+      transform: scale(1.1); /* Slightly enlarges the button on hover */
+    }
+  </style>
+</head>
+<body>
+  <toggle-button></toggle-button>
+
+  <script>
+    class ToggleButton extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+        this.state = localStorage.getItem('toggleState') === 'on';
+        this.render();
+      }
+
+      connectedCallback() {
+        this.shadowRoot.querySelector('button').addEventListener('click', this.toggle.bind(this));
+      }
+
+      toggle() {
+        this.state = !this.state;
+        localStorage.setItem('toggleState', this.state ? 'on' : 'off');
+        this.dispatchEvent(new CustomEvent('toggle-changed', { detail: { state: this.state } }));
+        this.render();
+      }
+
+      render() {
+        const color = this.state ? 'green' : 'red';
+        const text = this.state ? 'ON' : 'OFF';
+        this.shadowRoot.innerHTML = `
+          <button style="background-color: ${color};">${text}</button>
+        `;
+      }
+    }
+
+    customElements.define('toggle-button', ToggleButton);
+
+  
+  <style>
+    /* Center the container on the page */
+    body {
+      display : flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #e0f2f1; /* Optional background color */
+    }
+  </style>
+</head>
+<body>
+
+  <user-profile name="Dorji Lhamo" role="Programmer"></user-profile>
+
+  <script>
+    class UserProfile extends HTMLElement {
+    constructor() {
+      super():
+      const shadow = this.attachShadow({ mode: 'open' });
+
+      // Create a template
+      const template = document.createElement('template');
+      template.innerHTML = `
+        <style>
+          .card {
+            background-color: #f9f9f9;
+            border: 2px solid #4CAF50;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            font-family: Arial, sans-serif;
+            width: 220px;
+            text-align: center;
+            color: #333;
+          }
+          .name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2e7d32;
+          }
+          .role {
+            font-size: 1em;
+            color: #555;
+            margin-top: 8px;
+          }
+        </style>
+        <div class="card">
+          <div class="name"></div>
+          <div class="role"></div>
+        </div>
+      `;
+
+      // Clone the template content and append it to the shadow root
+      shadow.appendChild(template.content.cloneNode(true));
+    }
+
+    connectedCallback() {
+      this.shadowRoot.querySelector('.name').textContent = this.getAttribute('name');
+      this.shadowRoot.querySelector('.role').textContent = this.getAttribute('role');
+    }
+  }
+
+  // Define the custom element
+  customElements.define('user-profile', UserProfile);
+   </script>
+    </script>
+</body>
+</html>
