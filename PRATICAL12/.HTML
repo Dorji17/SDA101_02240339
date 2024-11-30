@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Card Component</title>
+  </head>
+  <body>
+    <!-- Using the custom card component -->
+    <!-- place 1 -->
+    <custom-card style="--card-bg-color: #f9f9f9">
+      <!-- Header slot -->
+      <span slot="header">Poem</span>
+
+      <!-- Image slot -->
+      <img slot="image" src="pic.jpeg" alt="Sample Image" />
+
+      <!-- Content slot -->
+      <span slot="content"
+        >"If my heart could speak, <br>
+         it would say to you,<br>
+        I will not let you go, I will hold you <br>
+        in my arms forever"
+.</span
+      >
+      <span slot="footer">Learn More</span>
+    </custom-card>
+
+    <!-- This is for  place 2 -->
+    <custom-card style="--card-bg-color: #f9f9f9">
+      <!--This is for  Header-->
+      <span slot="header">Poem</span>
+
+      <!--This is for  Image  -->
+      <img slot="image" src="pic.jpeg" alt="Sample Image" />
+
+      <!-- Content  -->
+      <span slot="content"
+        >"If my heart could speak, <br>
+         it would say to you,<br>
+        I will not let you go, I will hold you <br>
+        in my arms forever".</span
+      >
+      <!-- This is for footer -->
+      <span slot="footer">Learn More</span>
+    </custom-card>
+
+    <script src="component.js"></script>
+  </body>
+</html>
+class CustomCard extends HTMLElement {
+    constructor() {
+      super();
+  
+      // Attach Shadow DOM
+      this.attachShadow({ mode: "open" });
+  
+      // Define the HTML structure and styles
+      this.shadowRoot.innerHTML = `
+                <style>
+                    /* Component container */
+                    :host {
+                        display: inline-block;
+                        border: 1px solid #ddd;
+                        border-radius: 8px;
+                        background-color: var(--card-bg-color, #fff);
+                        color: var(--card-text-color, #333);
+                        max-width: 300px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        font-family: Arial, sans-serif;
+                        overflow: hidden;
+                    }
+    
+                    /* Header styling */
+                    .header {
+                        padding: 16px;
+                        background-color: var(--header-bg-color, #eee);
+                        font-weight: bold;
+                        text-align: center;
+                        border-bottom: 1px solid #ddd;
+                        display: block;
+                        width: 100%;
+                    }
+    
+                    /* Image styling */
+                    .image {
+                        width: 100%; 
+                        height: 200px; 
+                        object-fit: cover; 
+                        display: block;
+                    }
+    
+                    /* Content styling */
+                    .content {
+                        padding: 16px;
+                        text-align: left;
+                        display: block;
+                        width: 100%;
+                    }
+                  /* Footer styling */
+                  .footer {
+                      padding: 16px;
+                      background-color: var(--footer-bg-color, #eee);
+                      text-align: center;
+                      border-top: 1px solid #ddd;
+                  }
+    
+                </style>
+    
+                <div class="header">
+                    <slot name="header">Default Header</slot>
+                </div>
+                <div class="image-container">
+                    <slot name="image"></slot> 
+                </div>
+                <div class="content">
+                    <slot name="content">Default Content</slot>
+                </div>
+                <div class="footer">
+                  <slot name="footer">Default Footer</slot>
+              </div>
+               
+            `;
+    }
+  }
+  
+  // Define the custom card component
+  customElements.define("custom-card", CustomCard);
